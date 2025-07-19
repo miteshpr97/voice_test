@@ -4,14 +4,17 @@ import { useNavigate } from 'react-router-dom';
 function LoginPage() {
   const [email, setEmail] = useState('demo');
   const [password, setPassword] = useState('demo');
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (email === 'demo' && password === 'demo') {
-      console.log('Login successful');
-      navigate('/dashboard');
+      setLoginSuccess(true);
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000); // Navigate after 1s delay
     } else {
       alert('Invalid email or password');
     }
@@ -58,6 +61,7 @@ function LoginPage() {
     borderRadius: '8px',
     border: '1px solid #ccc',
     transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+    outline: 'none',
   };
 
   const buttonStyle = {
@@ -72,11 +76,6 @@ function LoginPage() {
     transition: 'background-color 0.3s ease',
   };
 
-  const inputFocusStyle = {
-    borderColor: '#4a90e2',
-    boxShadow: '0 0 5px rgba(74, 144, 226, 0.5)',
-  };
-
   return (
     <div style={containerStyle}>
       <form style={formStyle} onSubmit={handleLogin}>
@@ -85,15 +84,13 @@ function LoginPage() {
         <div style={inputGroupStyle}>
           <label htmlFor="email" style={labelStyle}>Email:</label>
           <input
-            type="email"
+            type="text"
             id="email"
             value={email}
+            autoComplete="username"
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{
-              ...inputStyle,
-              ...(email && inputFocusStyle),
-            }}
+            style={inputStyle}
           />
         </div>
 
@@ -103,12 +100,10 @@ function LoginPage() {
             type="password"
             id="password"
             value={password}
+            autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{
-              ...inputStyle,
-              ...(password && inputFocusStyle),
-            }}
+            style={inputStyle}
           />
         </div>
 
@@ -121,6 +116,12 @@ function LoginPage() {
         >
           Login
         </button>
+
+        {loginSuccess && (
+          <p style={{ color: 'green', marginTop: '1rem', textAlign: 'center' }}>
+            Login successful! Redirecting...
+          </p>
+        )}
       </form>
     </div>
   );
