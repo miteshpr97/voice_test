@@ -9,7 +9,7 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (email === 'demo@gmail.com' && password === 'demo') {
+    if (email === 'demo' && password === 'demo') {
       console.log('Login successful');
       navigate('/dashboard');
     } else {
